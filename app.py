@@ -13,7 +13,7 @@ from collections import defaultdict
 load_dotenv()
 
 password = os.getenv('MONGO_PASSWORD')
-cxn_str = os.getenv('MONGO_URI')
+cxn_str = os.getenv('MONGODB_URI')
 client = MongoClient(cxn_str)
 dbname = os.getenv('DB_NAME')
 db = client[dbname]
