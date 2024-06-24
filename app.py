@@ -4,9 +4,19 @@ from pymongo import MongoClient
 from bson import ObjectId
 import re
 import os
+from os.path import join, dirname
+from dotenv import load_dotenv
 from werkzeug.utils import secure_filename 
 from datetime import datetime
 from collections import defaultdict
+
+load_dotenv()
+
+password = os.getenv('MONGO_PASSWORD')
+cxn_str = os.getenv('MONGO_URI')
+client = MongoClient(cxn_str)
+dbname = os.getenv('DB_NAME')
+db = client[dbname]
 
 password = 'sparta'
 cxn_str = f'mongodb://test:{password}@ac-6skehua-shard-00-00.eqimsea.mongodb.net:27017,ac-6skehua-shard-00-01.eqimsea.mongodb.net:27017,ac-6skehua-shard-00-02.eqimsea.mongodb.net:27017/?ssl=true&replicaSet=atlas-dad2x6-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0 '
