@@ -1,0 +1,63 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #FFDE59;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container-fluid {
+    height: 100%;
+}
+
+.bg-image {
+    background-image: url('../img/registerlogo-01.png');
+    background-size: contain;
+    /* Menggunakan contain agar gambar sesuai dengan ukuran div */
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.login {
+    height: 100%;
+    padding: 50px;
+}
+
+.login-heading {
+    font-family: 'Jost', sans-serif;
+    font-weight: 700;
+    color: #333;
+}
+
+.btn-login {
+    background-color: #333;
+    border: none;
+    color: #FFDE59;
+    transition: background-color 0.3s;
+}
+
+.btn-login:hover {
+    background-color: #555;
+}
+
+.form-floating label {
+    color: #777;
+}
+
+.form-floating .form-control {
+    padding: 1.5rem 0.75rem;
+    height: auto;
+}
+
+.text-muted.fz-5 {
+    font-size: 0.875rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .login {
+        padding: 20px;
+    }
+}

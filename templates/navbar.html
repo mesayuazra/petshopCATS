@@ -1,0 +1,78 @@
+<header id="header" class="fixed-top">
+  <div class="container d-flex align-items-center">
+
+    <h1 class="logo me-auto"><a href="/"><img src="{{ url_for('static', filename='img/logo_white.png') }}"
+          alt="logo"></a></h1>
+
+    <nav id="navbar" class="navbar">
+      <ul>
+        <li><a class="nav-link scrollto active" href="/">Halaman Utama</a></li>
+        <li><a class="nav-link scrollto" href="/about">Tentang Kami</a></li>
+        <li><a class="nav-link scrollto" href="/grooming">Grooming</a></li>
+        <li class="dropdown">
+          <a href="#"><span>Produk</span> <i class="bi bi-chevron-down"></i></a>
+          <ul>
+            <li><a href="/food">Makanan</a></li>
+            <li><a href="/accessories">Aksesoris</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#"><span>Klinik</span> <i class="bi bi-chevron-down"></i></a>
+          <ul>
+            <li><a href="/ClinicHome">Klinik</a></li>
+            <li><a href="/HealthCareServices">Layanan Kesehatan</a></li>
+          </ul>
+        </li>
+        <li class="dropdown" id="loginMenu" style="padding-left: 50px;">
+          <a id="loginButton" class="getstarted scrollto" href="/login"
+            style="color: white; background-color: #C73420; border-radius: 20px; padding: 10px 20px; margin-left: 20px;">Masuk</a>
+        </li>
+      </ul>
+      <i class="bi bi-list mobile-nav-toggle"></i>
+    </nav><!-- .navbar -->
+
+  </div>
+</header>
+
+
+<!-- Tambahkan di bagian bawah file HTML -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  function updateLoginStatus() {
+    $.ajax({
+      type: 'GET',
+      url: '/check_login_status',
+      dataType: 'json',
+      success: function (data) {
+        if (data.logged_in) {
+          // Ganti tombol "Masuk" dengan dropdown menu untuk user yang sudah login
+          $('#loginMenu').html(`
+            <a href="#" class="getstarted scrollto" style="color: white; background-color: red; border-radius: 20px; padding: 10px 20px;"><span>${data.username}</span></a>
+            <ul style="display: none;">
+              <li><a href="/profile">Profile</a></li>
+              <li><a href="/logout">Logout</a></li>
+            </ul>
+          `).addClass('dropdown');
+
+          // Toggle dropdown saat tombol username diklik
+          $('#loginMenu > a').click(function (event) {
+            event.preventDefault();
+            $(this).next('ul').toggle();
+          });
+
+          // Menyembunyikan dropdown ketika klik di luar dropdown
+          $(document).click(function (event) {
+            if (!$(event.target).closest('#loginMenu').length) {
+              $('#loginMenu ul').hide();
+            }
+          });
+        }
+      }
+    });
+  }
+
+  $(document).ready(function () {
+    updateLoginStatus();
+  });
+</script>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Accessories</title>
+  <!-- Include your CSS and other meta tags -->
+  <link href="{{ url_for('static', filename='img/logo_white.png') }}" rel="icon">
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="../static/vendor/aos/aos.css" rel="stylesheet">
+  <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../static/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../static/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="../static/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="../static/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="../static/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="../static/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+  {% include 'navbar.html' %}
+
+  <!-- ======= Food Section ======= -->
+  <section id="cta" class="cta" style="background:#FFDE59;">
+    <div class="container" data-aos="zoom-in" style="padding: 50px 0 30px 0;">
+
+      <div class="section-title" style="padding: 80px 0 60px 0;">
+        <h2>Aksesoris</h2>
+        <p class="text-center fw-bold" style="color: rgba(153, 56, 0, 0.6); font-size:30px">
+          Tersedia berbagai macam jenis aksesoris dengan kualitas terbaik yang nyaman dipakai anabul</p>
+      </div>
+    </section><!-- End Cta Section -->
+
+  <section id="cliens" class="cliens section-bg" style="background-color: white;">
+    <div class="container">
+
+      <div class="row aos-init aos-animate" data-aos="zoom-in">
+
+        <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+          <img src="{{ url_for('static', filename='img/clients/royal_canin.png') }}" class="img-fluid" alt="">
+        </div>
+
+        <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+          <img src="{{ url_for('static', filename='img/clients/friskies.png') }}" class="img-fluid" alt="">
+        </div>
+
+        <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+          <img src="{{ url_for('static', filename='img/clients/pedigree.png') }}" class="img-fluid" alt="">
+        </div>
+
+        <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+          <img src="{{ url_for('static', filename='img/clients/whiskas.png') }}" class="img-fluid" alt="">
+        </div>
+
+        <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+          <img src="../static/img/clients/barkbox.png" class="img-fluid" alt="">
+        </div>
+
+        <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+          <img src="../static/img/clients/furbo.png" class="img-fluid" alt="">
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <div class="d-flex justify-content-center align-items-center mb-3" style="width: 500px; margin: 0 auto;">
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Cari nama produk..." id="searchAccessoryInput"
+        aria-label="Cari produk" aria-describedby="button-addon2">
+      <button class="btn btn-outline-danger" type="button" id="searchAccessoryButton">Cari</button>
+    </div>
+  </div>
+
+
+  <!-- ======= Pricing Section ======= -->
+  <section id="pricing" class="pricing" style="background:#f3f5fa;">
+    <div class="container" data-aos="fade-up">
+
+      <div class="card-container row">
+        {% for accessory in accessories %}
+        <div class="card col-lg-6 col-12 mb-4" data-aos="zoom-in" data-aos-delay="200">
+          <img src="{{ url_for('static', filename='uploads/' ~ accessory['image']) }}" alt="Accessory Image">
+          <div class="tag">{{ accessory['category'] }}</div>
+          <div class="card-body">
+            <p class="card-category">{{ accessory['type'] }}</p>
+            <h5 class="card-title">{{ accessory['name'] }}</h5>
+            <div class="card-details">
+              <span class="card-price">Rp {{ accessory['price'] }}</span>
+              <span class="card-stock">Sisa {{ accessory['quantity'] }}</span>
+            </div>
+            <a class="btn btn-danger" href="#" onclick="openWhatsApp('{{ accessory['name'] }}')">Pesan</a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+    </div>
+  </section><!-- End Pricing Section -->
+
+  <!-- ======= Footer ======= -->
+  {% include 'footer.html' %}
+  <!-- End Footer -->
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <script>
+    function openWhatsApp(productName) {
+      // Nomor WhatsApp yang dituju
+      var phoneNumber = '6285884693217';
+      // Pesan yang akan dikirimkan
+      var message = 'Halo, saya tertarik dengan produk aksesoris ' + productName + '.';
+
+      // Encode pesan untuk URL
+      var encodedMessage = encodeURIComponent(message);
+
+      // URL WhatsApp dengan nomor dan pesan yang sudah diencode
+      var whatsappURL = 'https://api.whatsapp.com/send?phone=' + phoneNumber + '&text=' + encodedMessage;
+
+      // Buka link WhatsApp dalam tab baru
+      window.open(whatsappURL);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('searchAccessoryButton').addEventListener('click', function () {
+        var searchText = document.getElementById('searchAccessoryInput').value.toLowerCase();
+
+        var cards = document.querySelectorAll('.card');
+        cards.forEach(function (card) {
+          var productName = card.querySelector('.card-title').textContent.toLowerCase();
+          if (productName.includes(searchText)) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+
+  <!-- Vendor JS Files -->
+  <script src="../static/vendor/aos/aos.js"></script>
+  <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../static/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="../static/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="../static/vendor/php-email-form/validate.js"></script>
+  <script src="../static/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="../static/vendor/waypoints/noframework.waypoints.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="../static/js/main.js"></script>
+
+</body>
+
+</html>

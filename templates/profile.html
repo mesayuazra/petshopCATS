@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Profile</title>
+    <link rel="stylesheet" href="static/css/profile.css">
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="{{ url_for('static', filename='img/logo_white.png') }}" rel="icon">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="static/vendor/aos/aos.css" rel="stylesheet">
+    <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="static/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="static/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="static/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="static/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <!-- Template Main CSS File -->
+    <link href="static/css/style.css" rel="stylesheet">
+</head>
+
+<body style="background-color: #FFDE59;">
+
+    <!-- ======= Header ======= -->
+    {% include 'navbar.html' %}
+    <!-- End Header -->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3" style="padding-top: 50px;padding-bottom: 50px;">
+                <div class="profile mt-5">
+                    <div class="text-center">
+                        <div class="profile-image">
+                            {% if profile_photo_url %}
+                            <img src="{{ profile_photo_url }}" alt="Profile Image" id="profileImage">
+                            {% else %}
+                            <img src="{{ url_for('static', filename='img/user_default.jpg')}}" alt="Default Profile Image" id="profileImage">
+                            {% endif %}
+                        </div>
+
+                        <div class="d-flex justify-content-center align-items-center mt-2">
+                            <label for="uploadPhoto" class="btn btn-sm btn-primary me-2">
+                                <i class="fas fa-camera"></i> Change Photo
+                            </label>
+                            <input type="file" id="uploadPhoto" accept="image/*" style="display: none;">
+                            <button id="savePhoto" class="btn btn-sm btn-success">Save</button>
+                        </div>
+                    </div>
+                    <div class="profile-details mt-3">
+                        <h4 class="text-center">User Profile</h4>
+                        <div class="mb-3">
+                            <label for="petName" class="form-label">Pet Name</label>
+                            <input type="text" class="form-control" id="petName" placeholder="Pet Name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="address" placeholder="Address">
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <input type="text" class="form-control" id="phone" placeholder="Phone Number">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" placeholder="Email">
+                        </div>
+                        <div class="text-center">
+                            <button id="saveProfile" class="btn btn-primary mt-3">Save Profile</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======= Footer ======= -->
+    {% include 'footer.html' %}
+    <!-- End Footer -->
+
+    <div id="preloader"></div>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="static/vendor/aos/aos.js"></script>
+    <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="static/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="static/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="static/vendor/php-email-form/validate.js"></script>
+    <script src="static/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="static/vendor/waypoints/noframework.waypoints.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="static/js/main.js"></script>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-0ZWWF+8F8sLMyLvU4zO9VE2j/N63Tk2bSiCt2S1wCsVnB6N24H2PcOTD47JjL+fK" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+    </script>
+    <script>
+        document.getElementById('uploadPhoto').addEventListener('change', function (event) {
+            var file = event.target.files[0];
+            var reader = new FileReader();
+            reader.onload = function () {
+                document.getElementById('profileImage').src = reader.result;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        document.getElementById('savePhoto').addEventListener('click', function () {
+            var fileInput = document.getElementById('uploadPhoto');
+            var file = fileInput.files[0];
+            if (!file) {
+                alert('Please select a file to upload.');
+                return;
+            }
+
+            var formData = new FormData();
+            formData.append('profile_photo', file);
+
+            fetch('/save_profile_photo', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.result === 'success') {
+                        alert('Photo saved successfully!');
+                        fetchUserData(); // Refresh user data to update profile photo
+                    } else {
+                        alert('Failed to save photo: ' + data.msg);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while saving the photo.');
+                });
+        });
+
+        document.getElementById('saveProfile').addEventListener('click', function () {
+            var profileData = {
+                pet_name: document.getElementById('petName').value,
+                address: document.getElementById('address').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value
+            };
+
+            fetch('/update_profile', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(profileData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.result === 'success') {
+                        alert('Profile updated successfully!');
+                        fetchUserData(); // Refresh user data to show updated information
+                    } else {
+                        alert('Failed to update profile: ' + data.msg);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while updating the profile.');
+                });
+        });
+
+        function fetchUserData() {
+            fetch('/get_user_data')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.result !== 'failure') {
+                        document.getElementById('petName').value = data.pet_name;
+                        document.getElementById('address').value = data.address;
+                        document.getElementById('phone').value = data.phone;
+                        document.getElementById('email').value = data.email;
+                        if (data.profile_photo) {
+                            document.getElementById('profileImage').src = 'static/uploads/' + data.profile_photo;
+                        }
+                    } else {
+                        alert('Failed to fetch user data: ' + data.msg);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        window.onload = fetchUserData;
+    </script>
+</body>
+
+</html>

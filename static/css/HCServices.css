@@ -1,0 +1,28 @@
+.section-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px; /* untuk memberikan ruang antara setiap section-title */
+  }
+
+  .section-title:nth-child(even) {
+    flex-direction: row-reverse; /* membalikkan tata letak untuk setiap section-title genap */
+  }
+
+  .section-title h2,
+  .section-title p {
+    margin: 0;
+  }
+
+  .section-title img {
+    max-width: 300px; /* Ubah maksimum lebar gambar menjadi 300px */
+    height: auto; /* Biarkan tinggi gambar menyesuaikan proporsi */
+    margin-left: 30px; /* Jarak antara gambar dan teks di sebelah kiri */
+    margin-right: 30px; /* Jarak di sisi kanan gambar */
+  }
+
+  .booking-btn {
+    padding: 20px;
+    font-size: large;
+    border-radius: 15px;
+  }
+  

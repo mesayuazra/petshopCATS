@@ -1,0 +1,46 @@
+body {
+  color: black;
+}
+
+.title {
+  margin-top: 30px;
+}
+
+.nav-item a{
+  color: #9c2b1d;
+  font-size: 200;
+  font-weight: 500;
+  line-height: 3;
+}
+
+.nav-item a:hover{
+  color: #9c2b1d;
+  font-size: 300;
+  font-weight: bold;
+  line-height: 3;
+}
+
+header .navbar-nav, header .navbar-brand {
+  padding: 15px 30px;
+}
+
+#sidebarMenu {
+  height: 100vh;
+  position: fixed;
+}
+
+.sidebar {
+    background-color: #f3f0f0!important; /* Change sidebar background color */
+    color: #ffffff; /* Optional: change text color to white for better readability */
+}
+
+/* Change navbar background color */
+.navbar {
+    background-color:  #9c2b1d !important;
+    color: #ffffff; /* Optional: change text color to white for better readability */
+}
+
+/* Ensure navbar links and icons are visible */
+.navbar .nav-link {
+    color: #ffffff !important;
+}

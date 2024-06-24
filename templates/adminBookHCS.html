@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking HCS side</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <style>
+        .pagination {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .product-image {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'sidebar.html' %}
+
+    <div class="container">
+        <!-- Bagian Booking Reservation -->
+        <div class="mt-4">
+            <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Booking Layanan Kesehatan</h1>
+                <div>
+                    <button class="btn btn-primary d-inline ms-2" data-bs-toggle="modal"
+                        data-bs-target="#addBookResModal">+
+                        Tambah data booking</button>
+                </div>
+            </div>
+            <section class="daftar-booking">
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover" id="reservationTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">NO</th>
+                                <th scope="col">NAMA</th>
+                                <th scope="col">LAYANAN KESEHATAN</th>
+                                <th scope="col">WAKTU</th>
+                                <th scope="col">LAYANAN ANTAR-JEMPUT</th>
+                                <th scope="col">STATUS</th>
+                                <th scope="col">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for bookingRes in bookHCS %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ bookingRes.name }}</td>
+                                <td>{{ bookingRes.services }}</td>
+                                <td>{{ bookingRes.waktu }}</td>
+                                <td>{{ bookingRes.antar_jemput }}</td>
+                                <td>{{ bookingRes.status }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary"
+                                        onclick="editJadwal('{{ bookingRes._id }}')">Edit</button>
+                                    <button class="btn btn-sm btn-danger"
+                                        onclick="deleteJadwal('{{ bookingRes._id }}')">Delete</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Modal Tambah Booking Reservasi -->
+    <div class="modal fade" id="addBookResModal" tabindex="-1" aria-labelledby="addBookResModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="addBookingResForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addBookResModalLabel">Tambah Data Booking</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="userName" class="form-label">Nama</label>
+                            <input type="text" class="form-control" id="userName" name="bookingName" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="bookingHCServices" class="form-label">Layanan Booking</label>
+                            <select class="form-control" id="bookingHCServices" name="bookingServices">
+                                <option value="Vaksinasi">Vaksinasi</option>
+                                <option value="Sterilisasi">Sterilisasi</option>
+                                <option value="Operasi">Operasi</option>
+                                <option value="Konsultasi">Konsultasi</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="bookingSchedule" class="form-label">Tanggal</label>
+                            <input type="date" class="form-control" id="bookingSchedule" name="bookingDate" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="bookingWaktu" class="form-label">Waktu</label>
+                            <select class="form-control" id="bookingWaktu" name="bookingTime">
+                                <option value="17:00">16:00</option>
+                                <option value="17:00">17:00</option>
+                                <option value="17:30">17:30</option>
+                                <option value="18:00">18:00</option>
+                                <option value="18:30">18:30</option>
+                                <option value="19:00">19:00</option>
+                                <option value="19:30">19:30</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="antar_jemput" class="form-label">Layanan Antar-Jemput</label>
+                            <select class="form-control" id="antar_jemput" name="antar_jemput">
+                                <option value="Pick Up">Pick Up</option>
+                                <option value="Delivery">Delivery</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Status Booking</label>
+                            <select class="form-control" id="status" name="status">
+                                <option value="Proses">Proses</option>  
+                                <option value="Selesai">Selesai</option>
+                                <option value="Batal">Batal</option>        
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal edit Booking -->
+    <div class="modal fade" id="editBookResModal" tabindex="-1" aria-labelledby="editBookResModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="editBookResForm" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editBookResModalLabel">Edit Booking</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="editBookingName" class="form-label">Nama</label>
+                            <input type="text" class="form-control" id="editBookingName" name="bookingName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editBookingHCServices" class="form-label">Layanan Booking</label>
+                            <select class="form-control" id="editBookingHCServices" name="bookingServices">
+                                <option value="Vaksinasi">Vaksinasi</option>
+                                <option value="Sterilisasi">Sterilisasi</option>
+                                <option value="Netralisasi">Netralisasi</option>
+                                <option value="Operasi">Operasi</option>
+                                <option value="Konsultasi">Konsultasi</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editBookingSchedule" class="form-label">Tanggal</label>
+                            <input type="date" class="form-control" id="editBookingSchedule" name="bookingDate"
+                                required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editBookingWaktu" class="form-label">Waktu</label>
+                            <select class="form-control" id="editBookingWaktu" name="bookingTime">
+                                <option value="17:00">17:00</option>
+                                <option value="17:30">17:30</option>
+                                <option value="18:00">18:00</option>
+                                <option value="18:30">18:30</option>
+                                <option value="19:00">19:00</option>
+                                <option value="19:30">19:30</option>
+                                <option value="20:00">20:00</option>
+                                <option value="20:30">20:30</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editAntarJemput" class="form-label">Layanan Antar-Jemput</label>
+                            <select class="form-control" id="editAntarJemput" name="antar_jemput">
+                                <option value="Pick Up">Pick Up</option>
+                                <option value="Delivery">Delivery</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editStatus" class="form-label">Status Booking</label>
+                            <select class="form-control" id="editStatus" name="status">
+                                <option value="Proses">Proses</option>  
+                                <option value="Selesai">Selesai</option>
+                                <option value="Batal">Batal</option>        
+                            </select>
+                        </div>
+                        <input type="hidden" id="editBookingId" name="bookingId">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        $(document).ready(function () {
+            // Event listener for adding a new booking reservation
+            $('#addBookingResForm').on('submit', function (event) {
+                event.preventDefault();
+                submitBookingReservation();
+            });
+
+            // Event listener for editing a booking reservation
+            $('#editBookResForm').on('submit', function (event) {
+                event.preventDefault();
+                updateBookingReservation();
+            });
+        });
+
+
+        function submitBookingReservation() {
+            var formData = {
+                bookingName: $('#userName').val(),
+                bookingServices: $('#bookingHCServices').val(),
+                bookingTime: $('#bookingWaktu').val(),
+                bookingDate: $('#bookingSchedule').val(),
+                antar_jemput: $('#antar_jemput').val(),
+                status: $('#status').val()
+            };
+
+            $.ajax({
+                url: '/bookingHCS',
+                method: 'POST',
+                data: formData,
+                success: function (response) {
+                    alert(response.msg);
+                    location.reload();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                    alert(jqXHR.responseJSON.message); // Show the error message
+                }
+            });
+        }
+
+        function editJadwal(id) {
+            $.ajax({
+                url: '/edit_bookingHCS/' + id,
+                method: 'GET',
+                success: function (data) {
+                    $('#editBookingName').val(data.name);
+                    $('#editBookingHCServices').val(data.services);
+                    $('#editBookingSchedule').val(data.tanggal);
+                    $('#editBookingWaktu').val(data.waktu);
+                    $('#editAntarJemput').val(data.antar_jemput);
+                    $('#editStatus').val(data.status);
+                    $('#editBookingId').val(data._id);
+                    $('#editBookResModal').modal('show');
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        }
+
+        function updateBookingReservation() {
+            var formData = {
+                bookingName: $('#editBookingName').val(),
+                bookingServices: $('#editBookingHCServices').val(),
+                bookingDate: $('#editBookingSchedule').val(),
+                bookingTime: $('#editBookingWaktu').val(),
+                antar_jemput: $('#editAntarJemput').val(),
+                status: $('#editStatus').val()
+            };
+
+            var bookingId = $('#editBookingId').val();
+
+            $.ajax({
+                url: '/edit_bookingHCS/' + bookingId,
+                method: 'POST',
+                data: formData,
+                success: function (response) {
+                    alert(response.msg);
+                    location.reload();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        }
+
+
+        function deleteJadwal(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus booking ini?')) {
+                $.ajax({
+                    url: '/bookingHCS/' + id,
+                    method: 'DELETE',
+                    success: function (response) {
+                        alert(response.status);
+                        location.reload();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(textStatus, errorThrown);
+                    }
+                });
+            }
+        }
+    </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-FTtJhSHgHMWcVZnMhtPHANk02tnFO5SbZCZv+3G2MI5DBL8EotfHIFCXpEP6WZjb"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWIY2yR8MXxN02m2e8B4R7/7aoFf5n5xq4tqXn5t+5e8U2YpG7Chjq0UnQ"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

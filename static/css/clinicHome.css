@@ -1,0 +1,13 @@
+  .section-title div:first-child {
+    flex: 1;
+    text-align: left;
+  }
+  
+  .section-title div:last-child {
+    flex: 0;
+  }
+  
+  .section-title img {
+    max-width: 200px;
+    height: auto;
+  }

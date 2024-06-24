@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Layanan Grooming</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> -->
+</head>
+
+<body>
+
+    {% include 'sidebar.html' %}
+    <div class="container">
+        <h2 class="mt-4 mb-4">Layanan Grooming</h2>
+        <div class="row" id="product-cards">
+            {% for product in products %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">Type: {{ product.type }}</p>
+                        <p class="card-text">Category: {{ product.category }}</p>
+                        <p class="card-text">Quantity: {{ product.quantity }}</p>
+                        <p class="card-text">Price: {{ product.price }}</p>
+                        <img src="{{ url_for('uploads', filename=product.image) }}" class="card-img-top" alt="Product Image">
+                        <button class="btn btn-primary edit-btn" data-productid="{{ product._id }}">Edit</button>
+                        <button class="btn btn-success save-btn d-none" data-productid="{{ product._id }}">Save</button>
+                    </div>
+    {% include 'sidebar.html' %}
+
+    <div class="section-title" style="padding: 60px 0 60px 0;">
+        <div class="row">
+
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="box">
+                    <h4 style="color: #E75319"><strong>Anjing Besar</strong></h4>
+                    <ul class="huruf-tebal">
+                        <li><i class="bx bx-check"></i> Dry Grooming [Mandi Kering]</li>
+                        <li><i class="bx bx-check"></i> Basic Grooming </li>
+                        <li><i class="bx bx-check"></i> Basic Grooming + Anti kutu/Anti Jamur</li>
+                        <li><i class="bx bx-check"></i> Grooming Lengkap</li>
+                        <li><i class="bx bx-check"></i> Salon</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-4 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="200">
+                <div class="box">
+                    <h4 style="color: #E75319"><strong>Anjing Kecil</strong></h4>
+                    <ul class="huruf-tebal">
+                        <li><i class="bx bx-check"></i> Dry Grooming [Mandi Kering]</li>
+                        <li><i class="bx bx-check"></i> Basic Grooming </li>
+                        <li><i class="bx bx-check"></i> Basic Grooming + Anti kutu/Anti Jamur</li>
+                        <li><i class="bx bx-check"></i> Grooming Lengkap</li>
+                        <li><i class="bx bx-check"></i> Salon</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-4 mt-4 mt-lg-0" data-aos="fade-up" data-aos-delay="300">
+                <div class="box">
+                    <h4 style="color: #E75319"><strong>Kucing</strong></h4>
+                    <ul class="huruf-tebal">
+                        <li><i class="bx bx-check"></i> Dry Grooming [Mandi Kering]</li>
+                        <li><i class="bx bx-check"></i> Basic Grooming </li>
+                        <li><i class="bx bx-check"></i> Basic Grooming + Anti kutu/Anti Jamur</li>
+                        <li><i class="bx bx-check"></i> Grooming Lengkap</li>
+                        <li><i class="bx bx-check"></i> Salon</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

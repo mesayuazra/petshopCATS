@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Index</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{{ url_for('static', filename='img/logo_white.png') }}" rel="icon">
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="../static/vendor/aos/aos.css" rel="stylesheet">
+  <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../static/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../static/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="../static/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="../static/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="../static/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="../static/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/clinicHome.css') }}">
+
+  <!-- =======================================================
+  * Template Name: Arsha - v4.3.0
+  * Template URL: https://bootstrapmade.com/arsha-free-bootstrap-html-template-corporate/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+  {% include 'navbar.html' %}
+
+  <!-- ======= Cta Section ======= -->
+  <section id="cta" class="cta" style="background:#FFDE59;">
+    <div class="container" data-aos="zoom-in" style="padding: 80px 0 50px 0;">
+      <div class="row justify-content-center">
+        <div class="text-center" style="padding: 80px 0 60px 0;">
+          <h3 style="margin-bottom: 10px;">Booking Layanan Kesehatan</h3>
+          <p class="cta-subtitle">Pilih tanggal dan waktu</p>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="bookingDate">Tanggal</label>
+            <div class="dropdown-wrapper">
+              <select id="bookingDate" class="form-control">
+                <!-- Options will be populated by JavaScript -->
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="bookingTime">Waktu</label>
+            <div class="dropdown-wrapper">
+              <select id="bookingTime" class="form-control">
+                <option value="16:00">16:00</option>
+                <option value="17:00">17:00</option>
+                <option value="17:30">17:30</option>
+                <option value="18:00">18:00</option>
+                <option value="18:30">18:30</option>
+                <option value="19:00">19:00</option>
+                <option value="19:30">19:30</option>
+
+              </select>
+            
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- End Cta Section -->
+
+
+  <section id="clinicsatu" class="clinicsatu">
+    <div class="container" data-aos="fade-up">
+      <div class="section-title" style="display: flex; align-items: center; justify-content: space-between;">
+        <div style="flex: 1;">
+          <h2>Pilih Layanan Kesehatan</h2>
+        </div>
+      </div>
+
+      <div class="row" id="bookingLayanan">
+        <!-- Radio buttons -->
+        <div class="col-md-3">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="serviceOption" id="vaksinasiRadio" value="vaksinasi"
+              onclick="showService('vaksinasi')" checked>
+            <label class="form-check-label" for="vaksinasiRadio">
+              Vaksinasi
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="serviceOption" id="sterilisasiRadio" value="sterilisasi"
+              onclick="showService('sterilisasi')">
+            <label class="form-check-label" for="sterilisasiRadio">
+              Sterilisasi
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="serviceOption" id="netralisasiRadio" value="netralisasi"
+              onclick="showService('netralisasi')">
+            <label class="form-check-label" for="netralisasiRadio">
+              Netralisasi
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="serviceOption" id="operasiRadio" value="operasi"
+              onclick="showService('operasi')">
+            <label class="form-check-label" for="operasiRadio">
+              Operasi
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="serviceOption" id="konsultasiRadio" value="konsultasi"
+              onclick="showService('konsultasi')">
+            <label class="form-check-label" for="konsultasiRadio">
+              Konsultasi
+            </label>
+          </div>
+        </div>
+
+        <!-- Service details -->
+        <div class="col-md-9">
+          <div id="serviceDetails">
+            <div id="vaksinasiContent" style="display: flex; align-items: flex-start;">
+              <div class="service-info" style="flex: 0 1 60%; text-align: left; font-size: 14px;">
+                <h3>Layanan Vaksinasi</h3>
+                <p>Layanan vaksinasi di CAT’s Petshop menyediakan perlindungan kesehatan optimal bagi hewan peliharaan
+                  Anda dengan vaksinasi rutin yang dilakukan oleh tenaga profesional. Kami memastikan setiap hewan
+                  mendapatkan vaksin yang sesuai untuk mencegah penyakit umum dan menjaga kesejahteraan mereka.</p>
+              </div>
+              <div class="service-image" style="flex: 0 0 auto; margin-left: 20px;">
+                <img src="{{ url_for('static', filename='img/clinicLK1.jpg') }}" alt="Service Image"
+                  style="max-width: 200px; height: auto;">
+              </div>
+            </div>
+
+            <div id="sterilisasiContent" style="display: none; align-items: flex-start;">
+              <div class="service-info" style="flex: 0 1 60%; text-align: left; font-size: 14px;">
+                <h3>Layanan Sterilisasi</h3>
+                <p>Layanan sterilisasi di CAT’s Petshop menawarkan prosedur steril yang aman dan efektif untuk mencegah
+                  reproduksi hewan peliharaan Anda. Dilakukan oleh dokter hewan berpengalaman, sterilisasi membantu
+                  mengurangi risiko penyakit dan masalah perilaku.</p>
+              </div>
+              <div class="service-image" style="flex: 0 0 auto; margin-left: 20px;">
+                <img src="{{ url_for('static', filename='img/clinicLK2.jpeg') }}" alt="Service Image"
+                  style="max-width: 200px; height: auto;">
+              </div>
+            </div>
+
+            <div id="netralisasiContent" style="display: none; align-items: flex-start;">
+              <div class="service-info" style="flex: 0 1 60%; text-align: left; font-size: 14px;">
+                <h3>Layanan Netralisasi</h3>
+                <p>Layanan netralisasi kami memberikan solusi kemanusiaan untuk mengontrol populasi hewan peliharaan
+                  dengan prosedur yang cepat dan minim risiko. Kami memastikan proses ini dilakukan dengan penuh
+                  perhatian terhadap kesejahteraan hewan.</p>
+              </div>
+              <div class="service-image" style="flex: 0 0 auto; margin-left: 20px;">
+                <img src="{{ url_for('static', filename='img/clinicLK3.png') }}" alt="Service Image"
+                  style="max-width: 200px; height: auto;">
+              </div>
+            </div>
+
+            <div id="operasiContent" style="display: none; align-items: flex-start;">
+              <div class="service-info" style="flex: 0 1 60%; text-align: left; font-size: 14px;">
+                <h3>Layanan Operasi</h3>
+                <p>CAT’s Petshop menyediakan berbagai layanan operasi hewan dengan fasilitas lengkap dan teknologi
+                  canggih. Dokter hewan kami siap menangani operasi dari yang sederhana hingga kompleks, memastikan
+                  hewan peliharaan Anda mendapatkan perawatan terbaik.</p>
+              </div>
+              <div class="service-image" style="flex: 0 0 auto; margin-left: 20px;">
+                <img src="{{ url_for('static', filename='img/clinicLK4.png') }}" alt="Service Image"
+                  style="max-width: 200px; height: auto;">
+              </div>
+            </div>
+
+            <div id="konsultasiContent" style="display: none; align-items: flex-start;">
+              <div class="service-info" style="flex: 0 1 60%; text-align: left; font-size: 14px;">
+                <h3>Layanan Konsultasi</h3>
+                <p>Layanan konsultasi di CAT’s Petshop menawarkan saran dan panduan profesional mengenai kesehatan,
+                  nutrisi, dan perawatan hewan peliharaan Anda. Dokter hewan kami siap membantu menjawab pertanyaan dan
+                  memberikan solusi terbaik untuk kesejahteraan hewan kesayangan Anda.</p>
+              </div>
+              <div class="service-image" style="flex: 0 0 auto; margin-left: 20px;">
+                <img src="{{ url_for('static', filename='img/clinicLK5.jpg') }}" alt="Service Image"
+                  style="max-width: 200px; height: auto;">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cta" class="cta" style="background:#f3f5fa;">
+    <div class="container" data-aos="zoom-in">
+      <div class="row align-items-center">
+        <div class="col-md-3" id="antarJemput">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="ctaOption" id="pickUpRadio" value="pickup" checked>
+            <label class="form-check-label" for="pickUpRadio">
+              Pick Up
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="ctaOption" id="deliveryRadio" value="delivery">
+            <label class="form-check-label" for="deliveryRadio">
+              Delivery
+            </label>
+          </div>
+        </div>
+        <div class="col-lg-3 ms-auto text-center">
+          <a class="cta-btn align-middle" href="/booking">Booking</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ======= Footer ======= -->
+  {% include 'footer.html' %}
+  <!-- End Footer -->
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="../static/vendor/aos/aos.js"></script>
+  <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../static/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="../static/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="../static/vendor/php-email-form/validate.js"></script>
+  <script src="../static/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="../static/vendor/waypoints/noframework.waypoints.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="../static/js/main.js"></script>
+
+  <script>
+    function showService(service) {
+      // Hide all service content
+      document.querySelectorAll('#serviceDetails > div').forEach(function (el) {
+        el.style.display = 'none';
+      });
+
+      // Show selected service content
+      document.getElementById(service + 'Content').style.display = 'flex';
+    }
+
+    // Ensure default service is shown on page load
+    document.addEventListener('DOMContentLoaded', function () {
+      showService('vaksinasi');
+    });
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const bookingDate = document.getElementById("bookingDate");
+
+      const today = new Date();
+      const oneMonthFromNow = new Date();
+      oneMonthFromNow.setMonth(today.getMonth() + 1);
+
+      while (today <= oneMonthFromNow) {
+        const option = document.createElement("option");
+        option.value = today.toISOString().split('T')[0];
+        option.text = today.toISOString().split('T')[0];
+        bookingDate.appendChild(option);
+        today.setDate(today.getDate() + 1);
+      }
+
+      // Event listener for dropdown arrow
+      document.querySelectorAll('.custom-dropdown').forEach(dropdown => {
+        dropdown.addEventListener('change', function () {
+          const arrow = this.nextElementSibling;
+          arrow.innerHTML = "&#9660;"; // Panah ke bawah setelah memilih
+        });
+
+        dropdown.addEventListener('focus', function () {
+          const arrow = this.nextElementSibling;
+          arrow.innerHTML = "&#9650;"; // Panah ke atas saat fokus
+        });
+
+        dropdown.addEventListener('blur', function () {
+          const arrow = this.nextElementSibling;
+          arrow.innerHTML = "&#9660;"; // Panah ke bawah saat tidak fokus
+        });
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const bookingButton = document.querySelector('.cta-btn'); // Memilih tombol Booking
+
+      if (bookingButton) {
+        bookingButton.addEventListener('click', function (event) {
+          event.preventDefault(); // Menghentikan perilaku default dari anchor tag
+
+          // Mendapatkan nilai dari dropdown bookingDate
+          const bookingDate = document.getElementById('bookingDate').value;
+
+          // Mendapatkan nilai dari dropdown bookingTime
+          const bookingTime = document.getElementById('bookingTime').value;
+
+          // Lakukan apa pun yang ingin Anda lakukan dengan nilai-nilai ini, misalnya, kirim ke server atau validasi
+
+          // Contoh: Output ke console untuk tujuan demonstrasi
+          console.log('Tanggal:', bookingDate);
+          console.log('Waktu:', bookingTime);
+
+          // Jika Anda ingin mengirim data ini ke server, Anda dapat menggunakan fetch atau XMLHttpRequest
+
+          // Contoh: Fetch POST request
+          /*
+          fetch('/booking', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              bookingDate: bookingDate,
+              bookingTime: bookingTime,
+            }),
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Response from server:', data);
+            // Lakukan sesuatu dengan respons dari server jika perlu
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+          */
+        });
+      }
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+      const bookingButton = document.querySelector('.cta-btn'); // Memilih tombol Booking
+
+      if (bookingButton) {
+        bookingButton.addEventListener('click', function (event) {
+          event.preventDefault(); // Menghentikan perilaku default dari anchor tag
+
+          // Mendapatkan nilai dari radio button serviceOption yang dipilih
+          let serviceOption;
+          const serviceOptions = document.getElementsByName('serviceOption');
+
+          for (const option of serviceOptions) {
+            if (option.checked) {
+              serviceOption = option.value;
+              break;
+            }
+          }
+
+          // Lakukan apa pun yang ingin Anda lakukan dengan nilai-nilai ini, misalnya, kirim ke server atau validasi
+
+          // Contoh: Output ke console untuk tujuan demonstrasi
+          console.log('Layanan dipilih:', serviceOption);
+
+          // Jika Anda ingin mengirim data ini ke server, Anda dapat menggunakan fetch atau XMLHttpRequest
+
+          // Contoh: Fetch POST request
+          /*
+          fetch('/booking', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              serviceOption: serviceOption,
+            }),
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Response from server:', data);
+            // Lakukan sesuatu dengan respons dari server jika perlu
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+          */
+        });
+      }
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+      const bookingButton = document.querySelector('.cta-btn'); // Memilih tombol Booking
+
+      if (bookingButton) {
+        bookingButton.addEventListener('click', function (event) {
+          event.preventDefault(); // Menghentikan perilaku default dari anchor tag
+
+          // Mendapatkan nilai dari radio button ctaOption yang dipilih
+          let ctaOption;
+          const ctaOptions = document.getElementsByName('ctaOption');
+
+          for (const option of ctaOptions) {
+            if (option.checked) {
+              ctaOption = option.value;
+              break;
+            }
+          }
+
+          // Lakukan apa pun yang ingin Anda lakukan dengan nilai-nilai ini, misalnya, kirim ke server atau validasi
+
+          // Contoh: Output ke console untuk tujuan demonstrasi
+          console.log('Pilihan antar/jemput:', ctaOption);
+
+          // Jika Anda ingin mengirim data ini ke server, Anda dapat menggunakan fetch atau XMLHttpRequest
+
+          // Contoh: Fetch POST request
+          /*
+          fetch('/booking', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              ctaOption: ctaOption,
+            }),
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Response from server:', data);
+            // Lakukan sesuatu dengan respons dari server jika perlu
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+          */
+        });
+      }
+    });
+
+    <!-- Skrip JavaScript untuk menangani logika formulir dan pengalihan ke WhatsApp -->
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const bookingButton = document.querySelector('.cta-btn'); // Memilih tombol Booking
+
+      if (bookingButton) {
+        bookingButton.addEventListener('click', function (event) {
+          event.preventDefault(); // Menghentikan perilaku default dari anchor tag
+
+          // Mendapatkan nilai dari dropdown bookingDate
+          const bookingDate = document.getElementById('bookingDate').value;
+
+          // Mendapatkan nilai dari dropdown bookingTime
+          const bookingTime = document.getElementById('bookingTime').value;
+
+          // Mendapatkan nilai dari radio button serviceOption yang dipilih
+          let serviceOption;
+          const serviceOptions = document.getElementsByName('serviceOption');
+
+          for (const option of serviceOptions) {
+            if (option.checked) {
+              serviceOption = option.value;
+              break;
+            }
+          }
+
+          if (!serviceOption) {
+            // Menangani kasus di mana tidak ada radio button yang dipilih
+            alert('Harap pilih salah satu layanan.');
+            return;
+          }
+
+          // Mendapatkan nilai dari radio button ctaOption yang dipilih
+          let ctaOption;
+          const ctaOptions = document.getElementsByName('ctaOption');
+
+          for (const option of ctaOptions) {
+            if (option.checked) {
+              ctaOption = option.value;
+              break;
+            }
+          }
+
+          if (!ctaOption) {
+            // Menangani kasus di mana tidak ada radio button antar/jemput yang dipilih
+            alert('Harap pilih metode antar/jemput.');
+            return;
+          }
+
+          // Format pesan untuk WhatsApp
+          const message = `Hi, saya dengan akun {{ username }}, ingin booking layanan ${serviceOption} pada tanggal ${bookingDate} di jam ${bookingTime}, dengan menggunakan layanan ${ctaOption}, apakah bisa?`;
+
+          // Nomor WhatsApp tujuan
+          const phoneNumber = '6285884693217';
+
+          // Membuat link untuk WhatsApp
+          const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+          // Arahkan pengguna ke WhatsApp
+          window.location.href = whatsappLink;
+        });
+      }
+    });
+
+
+
+  </script>
+
+</body>
+
+</html>

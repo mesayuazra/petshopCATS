@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Login</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="{{ url_for('static', filename='img/logo_white.png') }}" rel="icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Jost" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+
+<body>
+
+    <div class="container d-flex align-items-center justify-content-center min-vh-100">
+        <div class="row w-100">
+            <div
+                class="col-lg-6 d-flex flex-column justify-content-center align-items-center text-center p-4 bg-yellow">
+                <div class="bg-image-login d-none d-md-block mb-4"></div>
+            </div>
+            <div class="col-lg-6 d-flex flex-column justify-content-center align-items-center p-4">
+                <!-- Sign In Form -->
+                <div class="form-card">
+                    <form id="loginForm" class="w-100">
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" id="username" placeholder="Email" required>
+                            <label for="username">Email</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="password" placeholder="Password" required>
+                            <label for="password">Password</label>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit"
+                                class="btn btn-lg btn-login text-uppercase fw-bold mb-2">Masuk</button>
+                            <div class="text-center">
+                                <span>Belum punya akun? </span><a class="medium" href="/register">Yuk daftar di
+                                    sini!</a>
+                                <p class="text-muted mt-5 fz-5">© 2024 Victus - All Rights Reserved</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vendor JS Files -->
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#loginForm').submit(function (event) {
+                event.preventDefault();
+                var username = $('#username').val();
+                var password = $('#password').val();
+
+                // Hardcoded admin credentials
+                var adminUsername = 'admin@gmail.com';
+                var adminPassword = 'admin123';
+
+                if (username === adminUsername && password === adminPassword) {
+                    // Redirect to admin dashboard
+                    window.location.href = '/dashboard';
+                } else {
+                    // Normal login process
+                    var formData = {
+                        'username_give': username,
+                        'password_give': password
+                    };
+                    $.ajax({
+                        type: 'POST',
+                        url: '/login',
+                        data: formData,
+                        dataType: 'json',
+                        encode: true
+                    }).done(function (data) {
+                        if (data.result === 'success') {
+                            window.location.href = '/';
+                        } else {
+                            alert(data.msg);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

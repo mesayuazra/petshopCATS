@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grooming admin side</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styledashboard.css') }}">
+
+    <!-- Favicons -->
+    <link href="{{ url_for('static', filename='img/logo_white.png') }}" rel="icon">
+
+</head>
+
+<body>
+    {% include 'sidebar.html' %}
+
+    <div class="container-fluid">
+        <!-- Bagian Grooming Reservation -->
+        <div class="mt-4">
+            <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom title">
+                <h1 class="h2">Grooming Reservation</h1>
+                <div>
+                    <input class="form-control d-inline w-auto" type="text" id="searchByTime"
+                        placeholder="Search by Time" aria-label="Search by Time">
+
+                    <button class="btn btn-primary d-inline ms-2" data-bs-toggle="modal"
+                        data-bs-target="#addGroomResModal">+
+                        Jadwal Grooming</button>
+                </div>
+            </div>
+            <section class="daftar-Produk">
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover" id="reservationTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">NO</th>
+                                <th scope="col">NAMA HEWAN</th>
+                                <th scope="col">JENIS HEWAN</th>
+                                <th scope="col">LAYANAN GROOMING</th>
+                                <th scope="col">WAKTU</th>
+                                <th scope="col">LAYANAN ANTAR-JEMPUT</th>
+                                <th scope="col">AKSI</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for groomingRes in grooming %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                <td>{{ groomingRes.name }}</td>
+                                <td>{{ groomingRes.type }}</td>
+                                <td>{{ groomingRes.services }}</td>
+                                <td class="time">{{ groomingRes.waktu.replace('T', ' ') }}</td>
+                                <td>{{ groomingRes.antar_jemput }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary"
+                                        onclick="editJadwal('{{ groomingRes._id }}')">Edit</button>
+                                    <button class="btn btn-sm btn-danger"
+                                        onclick="deleteJadwal('{{ groomingRes._id }}')">Delete</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- Modal Tambah Grooming Reservasi -->
+        <div class="modal fade" id="addGroomResModal" tabindex="-1" aria-labelledby="addGroomResModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form id="addGroomResForm">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addGroomResModalLabel">Tambah Reservasi Grooming</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="animalName" class="form-label">Nama Hewan</label>
+                                <input type="text" class="form-control" id="groomingName" name="groomingName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="animalType" class="form-label">Jenis Hewan</label>
+                                <input type="text" class="form-control" id="groomingType" name="groomingType" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="groomingServices" class="form-label">Layanan Grooming</label>
+                                <input type="text" class="form-control" id="groomingServices" name="groomingServices"
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="waktu_grooming" class="form-label">Jadwal Grooming</label>
+                                <input type="datetime-local" class="form-control" id="groomingSchedule"
+                                    name="groomingSchedule" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="antar_jemput" class="form-label">Layanan Antar-Jemput</label>
+                                <select class="form-control" id="antar_jemput" name="antar_jemput">
+                                    <option value="YA">YA</option>
+                                    <option value="TIDAK">TIDAK</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary"
+                                onclick="submitGroomingReservation()">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal edit Grooming Reservasi -->
+        <div class="modal fade" id="editGroomResModal" tabindex="-1" aria-labelledby="editGroomResModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form id="editGroomResForm" method="POST">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editGroomResModalLabel">Edit Reservasi Grooming</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="animalName" class="form-label">Nama Hewan</label>
+                                <input type="text" class="form-control" id="editGroomingName" name="groomingName"
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="animalType" class="form-label">Jenis Hewan</label>
+                                <select class="form-control" id="editGroomingType" name="groomingType">
+                                    <option value="KUCING">KUCING</option>
+                                    <option value="ANJING KECIL">ANJING KECIL</option>
+                                    <option value="ANJING DEWASA">ANJING BESAR</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="groomingServices" class="form-label">Layanan Grooming</label>
+                                <input type="text" class="form-control" id="editGroomingServices"
+                                    name="groomingServices" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="waktu_grooming" class="form-label">Jadwal Grooming</label>
+                                <input type="datetime-local" class="form-control" id="editGroomingSchedule"
+                                    name="groomingSchedule" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="antar_jemput" class="form-label">Layanan Antar-Jemput</label>
+                                <select class="form-control" id="editAntarJemput" name="antar_jemput">
+                                    <option value="YA">YA</option>
+                                    <option value="TIDAK">TIDAK</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary" onclick="submitEdit()">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function editJadwal(groomId) {
+                console.log('Edit button clicked for ID:', groomId);
+                fetch(`/edit-grooming-reservation/${groomId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Data received from server:', data);
+                        // Populate the form fields with the reservation details
+                        $('#editGroomingName').val(data.name);
+                        $('#editGroomingType').val(data.type);
+                        $('#editGroomingServices').val(data.services);
+                        $('#editGroomingSchedule').val(data.waktu);
+                        $('#editAntarJemput').val(data.antar_jemput);
+
+                        $('#editGroomResForm').attr('action', `/edit-grooming-reservation/${groomId}`);
+
+                        // Show the modal
+                        $('#editGroomResModal').modal('show');
+                    })
+                    .catch(error => console.error('Error fetching data:', error));
+            }
+
+            function submitEdit() {
+                alert('Data reservasi grooming berhasil diedit')
+            }
+
+            function deleteJadwal(groomId) {
+                if (confirm('Apakah Anda yakin ingin menghapus reservasi ini?')) {
+                    $.ajax({
+                        url: `/api/delete-jadwal/${groomId}`,
+                        type: 'DELETE',
+                        success: function (response) {
+                            if (response.result === 'success') {
+                                alert('Reservasi berhasil dihapus');
+                                location.reload();
+                            } else {
+                                alert('Gagal menghapus Reservasi');
+                            }
+                        },
+                        error: function () {
+                            alert('Terjadi kesalahan saat menghapus reservasi');
+                        }
+                    });
+                }
+            }
+
+            $(document).ready(function () {
+                $('#addGroomResForm').submit(function (e) {
+                    e.preventDefault();
+                    let formData = new FormData(this);
+                    $.ajax({
+                        url: '/api/add-groomingReserve',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                            if (response.result === 'success') {
+                                alert('Reservasi berhasil disimpan');
+                                location.reload();
+                            } else {
+                                alert('Gagal mencatat reservasi');
+                            }
+                        },
+                        error: function () {
+                            alert('Terjadi kesalahan saat menambahkan reservasi');
+                        }
+                    });
+                });
+            });
+
+            $(document).ready(function () {
+                // Fungsi untuk melakukan pencarian berdasarkan waktu
+                $('#searchByTime').on('keyup', function () {
+                    var searchText = $(this).val().toLowerCase();
+
+                    // Loop melalui setiap baris tabel dan sembunyikan yang tidak sesuai dengan pencarian
+                    $('#reservationTable tbody tr').each(function () {
+                        var timeText = $(this).find('.time').text().toLowerCase();
+                        if (timeText.includes(searchText)) {
+                            $(this).show();
+                        } else {
+                            $(this).hide();
+                        }
+                    });
+                });
+            });
+
+        </script>
+</body>
+
+</html>
