@@ -24,8 +24,8 @@
             <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom title">
                 <h1 class="h2">Grooming Reservation</h1>
                 <div>
-                    <input class="form-control d-inline w-auto" type="text" id="searchByTime"
-                        placeholder="Search by Time" aria-label="Search by Time">
+                    <input class="form-control d-inline w-auto" type="text" id="searchByName"
+                        placeholder="Search by Name" aria-label="Search by Name">
 
                     <button class="btn btn-primary d-inline ms-2" data-bs-toggle="modal"
                         data-bs-target="#addGroomResModal">+
@@ -50,10 +50,10 @@
                             {% for groomingRes in grooming %}
                             <tr>
                                 <td>{{ loop.index }}</td>
-                                <td>{{ groomingRes.name }}</td>
+                                <td class="name">{{ groomingRes.name }}</td>
                                 <td>{{ groomingRes.type }}</td>
                                 <td>{{ groomingRes.services }}</td>
-                                <td class="time">{{ groomingRes.waktu.replace('T', ' ') }}</td>
+                                <td>{{ groomingRes.waktu.replace('T', ' ') }}</td>
                                 <td>{{ groomingRes.antar_jemput }}</td>
                                 <td>
                                     <button class="btn btn-sm btn-primary"
@@ -86,7 +86,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="animalType" class="form-label">Jenis Hewan</label>
-                                <input type="text" class="form-control" id="groomingType" name="groomingType" required>
+                                <select class="form-control" id="groomingType" name="groomingType" required>
+                                    <option value="KUCING">Kucing</option>
+                                    <option value="ANJING KECIL">Anjing kecil</option>
+                                    <option value="ANJING DEWASA">Anjing Besar</option>
+                                </select>
                             </div>
                             <div class="mb-3">
                                 <label for="groomingServices" class="form-label">Layanan Grooming</label>
@@ -135,9 +139,9 @@
                             <div class="mb-3">
                                 <label for="animalType" class="form-label">Jenis Hewan</label>
                                 <select class="form-control" id="editGroomingType" name="groomingType">
-                                    <option value="KUCING">KUCING</option>
-                                    <option value="ANJING KECIL">ANJING KECIL</option>
-                                    <option value="ANJING DEWASA">ANJING BESAR</option>
+                                    <option value="KUCING">Kucing</option>
+                                    <option value="ANJING KECIL">Anjing kecil</option>
+                                    <option value="ANJING DEWASA">Anjing Besar</option>
                                 </select>
                             </div>
                             <div class="mb-3">
@@ -240,13 +244,13 @@
 
             $(document).ready(function () {
                 // Fungsi untuk melakukan pencarian berdasarkan waktu
-                $('#searchByTime').on('keyup', function () {
+                $('#searchByName').on('keyup', function () {
                     var searchText = $(this).val().toLowerCase();
 
                     // Loop melalui setiap baris tabel dan sembunyikan yang tidak sesuai dengan pencarian
                     $('#reservationTable tbody tr').each(function () {
-                        var timeText = $(this).find('.time').text().toLowerCase();
-                        if (timeText.includes(searchText)) {
+                        var nameText = $(this).find('.name').text().toLowerCase();
+                        if (nameText.includes(searchText)) {
                             $(this).show();
                         } else {
                             $(this).hide();
